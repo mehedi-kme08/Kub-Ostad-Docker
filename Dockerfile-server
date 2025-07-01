@@ -1,0 +1,17 @@
+# Using the official Node.js image
+FROM node
+
+# Setting working directory
+WORKDIR /ostad-server
+
+# Copying backend code from directory to container
+COPY OstadServer/ .
+
+# Installing dependencies
+RUN npm install
+
+# Exposing port 5050
+EXPOSE 5050
+
+# Command to run the server
+CMD ["node", "server.js"]

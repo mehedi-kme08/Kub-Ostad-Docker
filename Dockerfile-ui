@@ -1,0 +1,26 @@
+# Using official Node.js image
+FROM node
+
+# Setting working directory
+WORKDIR /ostadui
+
+# Copying package files
+COPY OstadUI/package*.json ./
+
+# Installing dependencies
+RUN npm install
+
+# Copying the rest of the app
+COPY OstadUI/ .
+
+# Building the frontend
+RUN npm run build
+
+# Installing static server
+RUN npm install -g serve
+
+# Expose the port where server will run on
+EXPOSE 5173
+
+# Comand to Run 
+CMD ["npm", "run", "dev"]
