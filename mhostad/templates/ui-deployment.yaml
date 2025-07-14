@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mhostad.fullname" . }}-ui
+  labels:
+    app: {{ include "mhostad.fullname" . }}-ui
+spec:
+  replicas: {{ .Values.ui.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "mhostad.fullname" . }}-ui
+  template:
+    metadata:
+      labels:
+        app: {{ include "mhostad.fullname" . }}-ui
+    spec:
+      serviceAccountName: {{ include "mhostad.serviceAccountName" . }}
+      containers:
+        - name: ui
+          image: "{{ .Values.ui.image.repository }}:{{ .Values.ui.image.tag }}"
+          imagePullPolicy: {{ .Values.ui.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.ui.service.port }}
+          livenessProbe: {{- toYaml .Values.ui.livenessProbe | nindent 12 }}
+          readinessProbe: {{- toYaml .Values.ui.readinessProbe | nindent 12 }}
